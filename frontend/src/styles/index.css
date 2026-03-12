@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* ✅ Defina o tema aqui. O Tailwind v4 gera as classes automaticamente */
+@theme {
+  --color-primary: #0f172a;
+  --color-secondary: #3b82f6;
+  --color-accent: #10b981;
+  
+  --font-sans: 'Inter', sans-serif;
+}
+
+/* Configurações globais */
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .btn-primary {
+    /* Agora bg-secondary existe porque definimos --color-secondary acima */
+    @apply bg-secondary text-white py-3 px-6 rounded-lg font-bold shadow-lg transition-all hover:opacity-90;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-secondary border-2 border-secondary py-3 px-6 rounded-lg font-bold transition-all hover:bg-gray-50;
+  }
+
+  .btn-dark {
+    @apply bg-primary text-white py-3 px-6 rounded-full font-bold transition-all hover:opacity-90;
+  }
+}
