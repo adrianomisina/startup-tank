@@ -61,15 +61,6 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4 transition-colors duration-300">
-      {/* Botão Voltar - Canto Superior Esquerdo */}
-      <button
-        onClick={() => navigate('/')}
-        className="absolute top-6 left-6 inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-white transition-all shadow-sm hover:shadow-md"
-      >
-        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-        <span className="hidden sm:inline">Voltar</span>
-      </button>
-
       <div className="max-w-md w-full">
         <div className="bg-white rounded-3xl shadow-2xl shadow-slate-400/20 overflow-hidden border border-slate-200">
           {/* Header */}
@@ -85,7 +76,7 @@ const LoginPage: React.FC = () => {
 
           {/* Form */}
           <form onSubmit={handleLogin} className="p-8 space-y-6">
-            {/* Erro Geral - Exibir no topo do formulário */}
+            {/* Erro Geral */}
             {errors.general && (
               <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
                 <p className="text-red-700 font-medium text-sm">{errors.general}</p>
@@ -233,6 +224,17 @@ const LoginPage: React.FC = () => {
               </a>
             </p>
           </form>
+        </div>
+
+        {/* Link Voltar para Home - Após o Card */}
+        <div className="text-center mt-6">
+          <button
+            onClick={() => navigate('/')}
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-medium transition-colors group"
+          >
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Voltar para Home</span>
+          </button>
         </div>
       </div>
     </div>
