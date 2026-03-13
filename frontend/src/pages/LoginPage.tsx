@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Lock, LogIn, Mail, ArrowLeft } from 'lucide-react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -5,80 +6,200 @@ import { useNavigate } from 'react-router-dom'
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({})
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Validação de email
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return regex.test(email)
+  }
+
+  // Validação de formulário
+  const validateForm = () => {
+    const newErrors: { email?: string; password?: string } = {}
+
+    if (!email.trim()) {
+      newErrors.email = 'Email é obrigatório'
+    } else if (!validateEmail(email)) {
+      newErrors.email = 'Email inválido'
+    }
+
+    if (!password.trim()) {
+      newErrors.password = 'Senha é obrigatória'
+    } else if (password.length < 6) {
+      newErrors.password = 'Senha deve ter no mínimo 6 caracteres'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    localStorage.setItem('token', 'fake-jwt')
-    navigate('/dashboard')
+
+    if (!validateForm()) {
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // Simular delay de requisição
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      localStorage.setItem('token', 'fake-jwt')
+      localStorage.setItem('userEmail', email)
+      navigate('/dashboard')
+    } catch (error) {
+      setErrors({ general: 'Erro ao fazer login. Tente novamente.' })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 transition-colors duration-300">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4 transition-colors duration-300">
+      {/* Botão Voltar - Canto Superior Esquerdo */}
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-6 left-6 inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-white transition-all shadow-sm hover:shadow-md"
+      >
+        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+        <span className="hidden sm:inline">Voltar</span>
+      </button>
+
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-3xl shadow-xl shadow-slate-300 overflow-hidden border border-slate-200">
+        <div className="bg-white rounded-3xl shadow-2xl shadow-slate-400/20 overflow-hidden border border-slate-200">
           {/* Header */}
-          <div className="p-8 bg-slate-900 text-white text-center">
+          <div className="p-8 bg-linear-to-r from-slate-900 to-slate-800 text-white text-center">
+            <div className="flex justify-center mb-4">
+              <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center">
+                <LogIn size={24} />
+              </div>
+            </div>
             <h2 className="text-3xl font-bold mb-2">Bem-vindo</h2>
-            <p className="text-slate-300">Entre para continuar no StartupTank</p>
+            <p className="text-slate-300 text-sm">Entre para continuar no StartupTank</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleLogin} className="p-8 space-y-6">
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-2">Email</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 text-slate-500" size={20} />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                    placeholder="exemplo@gmail.com"
-                    required
-                  />
-                </div>
+            {/* Erro Geral - Exibir no topo do formulário */}
+            {errors.general && (
+              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                <p className="text-red-700 font-medium text-sm">{errors.general}</p>
               </div>
+            )}
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-2">Senha</label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 text-slate-500" size={20} />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
+            {/* Email Input */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">Email</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-3.5 text-slate-400" size={20} />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                    if (errors.email) setErrors({ ...errors, email: undefined })
+                  }}
+                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-slate-900 placeholder-slate-400 focus:outline-none transition-all ${
+                    errors.email
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-200'
+                      : 'border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+                  }`}
+                  placeholder="exemplo@gmail.com"
+                  disabled={isLoading}
+                />
               </div>
+              {errors.email && (
+                <p className="text-red-600 text-xs font-medium mt-1.5">{errors.email}</p>
+              )}
             </div>
 
+            {/* Password Input */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">Senha</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-3.5 text-slate-400" size={20} />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => {
+                    setPassword(e.target.value)
+                    if (errors.password) setErrors({ ...errors, password: undefined })
+                  }}
+                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white text-slate-900 placeholder-slate-400 focus:outline-none transition-all ${
+                    errors.password
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-200'
+                      : 'border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+                  }`}
+                  placeholder="••••••••"
+                  disabled={isLoading}
+                />
+              </div>
+              {errors.password && (
+                <p className="text-red-600 text-xs font-medium mt-1.5">{errors.password}</p>
+              )}
+            </div>
+
+            {/* Remember & Forgot Password */}
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-200 cursor-pointer"
+                  disabled={isLoading}
+                />
+                <span className="text-slate-700 group-hover:text-slate-900 transition-colors">
+                  Lembrar-me
+                </span>
+              </label>
+              <a
+                href="#"
+                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              >
+                Esqueceu a senha?
+              </a>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+              disabled={isLoading}
+              className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
             >
-              <LogIn size={20} />
-              Entrar
+              {isLoading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Entrando...</span>
+                </>
+              ) : (
+                <>
+                  <LogIn size={20} />
+                  <span>Entrar</span>
+                </>
+              )}
             </button>
 
+            {/* Divider */}
             <div className="relative py-4">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-slate-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-slate-600 uppercase font-medium">
+                <span className="px-2 bg-white text-slate-600 uppercase font-medium text-xs">
                   Ou entre com
                 </span>
               </div>
             </div>
 
+            {/* Google Button */}
             <button
               type="button"
-              className="w-full bg-white border-2 border-slate-300 text-slate-900 py-4 rounded-xl font-bold hover:bg-slate-50 hover:border-slate-400 transition-all flex items-center justify-center gap-2"
+              disabled={isLoading}
+              className="w-full bg-white border-2 border-slate-300 text-slate-900 py-3 rounded-xl font-bold hover:bg-slate-50 hover:border-slate-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -98,9 +219,10 @@ const LoginPage: React.FC = () => {
                   d="M12.18 4.77c1.64 0 3.11.57 4.27 1.68l3.19-3.19C17.7 1.48 15.21 0 12.18 0C7.21 0 2.9 2.77 1.02 6.47l4.22 3.14c.98-2.93 3.71-5.11 6.94-5.11Z"
                 />
               </svg>
-              Google
+              <span>Google</span>
             </button>
 
+            {/* Register Link */}
             <p className="text-center text-slate-700">
               Não tem uma conta?{' '}
               <a
@@ -111,17 +233,6 @@ const LoginPage: React.FC = () => {
               </a>
             </p>
           </form>
-        </div>
-
-        {/* Link Voltar - Fora do Card */}
-        <div className="text-center mt-6">
-          <button
-            onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-medium transition-colors group"
-          >
-            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            <span>Voltar para Home</span>
-          </button>
         </div>
       </div>
     </div>
