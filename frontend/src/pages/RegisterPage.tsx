@@ -61,7 +61,7 @@ const RegisterPage: React.FC = () => {
                 }`}
               >
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                     role === 'founder' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}
                 >
@@ -83,7 +83,7 @@ const RegisterPage: React.FC = () => {
                 }`}
               >
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                     role === 'mentor' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}
                 >
@@ -105,7 +105,7 @@ const RegisterPage: React.FC = () => {
                 }`}
               >
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                     role === 'investor' ? 'bg-purple-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}
                 >
