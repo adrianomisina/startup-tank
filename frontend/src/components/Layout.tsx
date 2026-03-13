@@ -1,17 +1,21 @@
 import React from 'react'
 import Navbar from './Navbar'
+import { Sidebar } from 'lucide-react'
 
 interface LayoutProps {
   children: React.ReactNode
   showSidebar?: boolean
+  role?: 'founder' | 'mentor' | 'investor' | 'admin'
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false }) => {
+const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false, role = 'founder' }) => {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900 transition-colors duration-300">
       <Navbar />
       <div className="flex flex-1 pt-16">
-        <main className="flex-1">{children}</main>
+        {/* Sidebar aparece apenas se showSidebar for true */}
+        {showSidebar && <Sidebar role={role} />}
+        <main className="flex-1 w-full">{children}</main>
       </div>
       <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 py-12 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -23,26 +27,17 @@ const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false }) => {
             <h4 className="text-white font-semibold mb-4">Plataforma</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a
-                  href="/startups"
-                  className="hover:text-white transition-colors"
-                >
+                <a href="/startups" className="hover:text-white transition-colors">
                   Startups
                 </a>
               </li>
               <li>
-                <a
-                  href="/mentores"
-                  className="hover:text-white transition-colors"
-                >
+                <a href="/mentores" className="hover:text-white transition-colors">
                   Mentores
                 </a>
               </li>
               <li>
-                <a
-                  href="/investidores"
-                  className="hover:text-white transition-colors"
-                >
+                <a href="/investidores" className="hover:text-white transition-colors">
                   Investidores
                 </a>
               </li>
@@ -52,26 +47,17 @@ const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false }) => {
             <h4 className="text-white font-semibold mb-4">Comunidade</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors"
-                >
+                <a href="#" className="hover:text-white transition-colors">
                   Suporte
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors"
-                >
+                <a href="#" className="hover:text-white transition-colors">
                   FAQ
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition-colors"
-                >
+                <a href="#" className="hover:text-white transition-colors">
                   Privacidade
                 </a>
               </li>

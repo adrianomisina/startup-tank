@@ -44,89 +44,124 @@ const MentorMarketplacePage: React.FC = () => {
     }
   ]
 
+  // Filtrar mentores baseado no searchTerm
+  const filteredMentors = mentors.filter(
+    mentor =>
+      mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      mentor.expertise.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      mentor.bio.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <Layout>
-      <div className="bg-slate-950slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
+          {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div>
-              <h1 className="text-3xl font-extrabold text-bg-slate-950slate-950 mb-2">
-                Encontre seu Mentor
-              </h1>
-              <p className="text-slate-500">
+              <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Encontre seu Mentor</h1>
+              <p className="text-slate-600">
                 Conecte-se com quem já chegou lá e acelere sua curva de aprendizado.
               </p>
             </div>
+
+            {/* Search Input */}
             <div className="relative flex-1 md:w-80">
               <Search className="absolute left-3 top-3 text-slate-400" size={20} />
               <input
                 type="text"
                 placeholder="Ex: Growth, Fundraising..."
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-950white border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 transition-all"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
               />
             </div>
           </div>
 
+          {/* Mentors Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {mentors.map(mentor => (
-              <div
-                key={mentor.id}
-                className="bg-slate-950white rounded-3xl p-8 border border-slate-100 flex flex-col md:flex-row gap-8 hover:shadow-xl transition-all group"
-              >
-                <div className="relative">
-                  <div className="w-32 h-32 rounded-3xl bg-slate-950slate-100 overflow-hidden">
-                    <img
-                      src={`https://i.pravatar.cc/150?u=${mentor.id}`}
-                      alt={mentor.name}
-                      className="w-full h-full object-cover"
-                    />
+            {filteredMentors.length > 0 ? (
+              filteredMentors.map(mentor => (
+                <div
+                  key={mentor.id}
+                  className="bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row gap-8 hover:shadow-lg hover:-translate-y-1 transition-all group"
+                >
+                  {/* Avatar Section */}
+                  <div className="relative shrink-0">
+                    <div className="w-32 h-32 rounded-3xl bg-slate-100 overflow-hidden">
+                      <img
+                        src={`https://i.pravatar.cc/150?u=${mentor.id}`}
+                        alt={mentor.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 bg-blue-600 text-white p-2 rounded-xl shadow-lg">
+                      <Award size={20} />
+                    </div>
                   </div>
-                  <div className="absolute -bottom-2 -right-2 bg-primary text-white p-2 rounded-xl shadow-lg">
-                    <Award size={20} />
+
+                  {/* Content Section */}
+                  <div className="flex-1">
+                    {/* Header with Name and Rating */}
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="text-2xl font-bold text-slate-900">{mentor.name}</h3>
+                        <p className="text-blue-600 font-bold text-sm uppercase tracking-wide">
+                          {mentor.expertise}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 bg-amber-50 text-amber-600 px-3 py-1 rounded-full text-sm font-bold shrink-0">
+                        <Star size={16} fill="currentColor" />
+                        <span>{mentor.rating}</span>
+                      </div>
+                    </div>
+
+                    {/* Bio */}
+                    <p className="text-slate-600 mb-6 text-sm leading-relaxed line-clamp-2">
+                      {mentor.bio}
+                    </p>
+
+                    {/* Info Grid */}
+                    <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-200">
+                      <div className="flex items-center gap-2 text-slate-600 text-sm">
+                        <Briefcase size={16} className="text-blue-600 shrink-0" />
+                        <span>
+                          <span className="font-bold text-slate-900">{mentor.experience}</span> anos
+                          exp.
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-600 text-sm">
+                        <DollarSign size={16} className="text-emerald-600 shrink-0" />
+                        <span>
+                          R$ <span className="font-bold text-slate-900">{mentor.rate}</span>/hora
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-4">
+                      <button className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 active:bg-blue-800 transition-all text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                        <Calendar size={18} />
+                        Agendar
+                      </button>
+                      <button className="px-4 py-3 border border-slate-300 rounded-xl hover:bg-slate-50 transition-all flex items-center justify-center">
+                        <ChevronRight size={20} className="text-slate-600" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex-1">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="text-2xl font-bold text-bg-slate-950slate-950">
-                        {mentor.name}
-                      </h3>
-                      <p className="text-secondary font-bold text-sm uppercase tracking-wide">
-                        {mentor.expertise}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-1 bg-slate-950amber-50 text-amber-600 px-3 py-1 rounded-full text-sm font-bold">
-                      <Star size={16} fill="currentColor" />
-                      <span>{mentor.rating}</span>
-                    </div>
-                  </div>
-
-                  <p className="text-slate-600 mb-6 text-sm leading-relaxed">{mentor.bio}</p>
-
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="flex items-center gap-2 text-slate-500 text-sm">
-                      <Briefcase size={16} />
-                      <span>{mentor.experience} anos exp.</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-slate-500 text-sm">
-                      <DollarSign size={16} />
-                      <span>R$ {mentor.rate}/hora</span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <button className="flex-1 bg-slate-950bg-slate-950slate-950 text-white py-3 rounded-xl font-bold hover:bg-slate-950black transition-all text-sm flex items-center justify-center gap-2">
-                      <Calendar size={18} />
-                      Agendar
-                    </button>
-                    <button className="px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-950slate-50 transition-all">
-                      <ChevronRight size={20} className="text-slate-400" />
-                    </button>
-                  </div>
-                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <Search size={48} className="mx-auto text-slate-300 mb-4" />
+                <p className="text-slate-600 text-lg font-medium">
+                  Nenhum mentor encontrado para "{searchTerm}"
+                </p>
+                <p className="text-slate-500 text-sm mt-2">
+                  Tente buscar por nome, especialidade ou palavra-chave
+                </p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

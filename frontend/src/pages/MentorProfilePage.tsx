@@ -1,128 +1,166 @@
-import { Award, Briefcase, DollarSign, MessageCircle, Quote, Star } from 'lucide-react'
+import {
+  ArrowUpRight,
+  CheckCircle,
+  FileText,
+  Globe,
+  MessageSquare,
+  Rocket,
+  ArrowLeft
+} from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 
-const MentorProfilePage: React.FC = () => {
+const StartupProfilePage: React.FC = () => {
+  const navigate = useNavigate()
+
   return (
     <Layout>
-      <div className="bg-slate-950slate-50 min-h-screen py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Sidebar Profile Card */}
-            <div className="space-y-6">
-              <div className="bg-slate-950white rounded-[3rem] p-10 border border-slate-100 shadow-sm text-center">
-                <div className="w-40 h-40 mx-auto rounded-[2.5rem] bg-slate-950slate-100 mb-8 overflow-hidden border-4 border-slate-50">
-                  <img
-                    src="https://i.pravatar.cc/300?u=mentor"
-                    alt="Mentor"
-                    className="w-full h-full object-cover"
-                  />
+      <div className="bg-slate-50 min-h-screen py-12 px-4">
+        {/* Botão Voltar */}
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-8 flex items-center gap-2 text-slate-600 hover:text-slate-900 font-medium px-4 py-2 rounded-lg hover:bg-slate-100 transition-all"
+        >
+          <ArrowLeft size={20} />
+          <span>Voltar</span>
+        </button>
+
+        <div className="max-w-5xl mx-auto">
+          {/* Cover / Header */}
+          <div className="bg-white rounded-[3rem] p-12 border border-slate-200 shadow-lg mb-8 relative overflow-hidden">
+            {/* Gradient Background - Mais visível */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full blur-3xl -mr-32 -mt-32 opacity-60"></div>
+
+            <div className="flex flex-col md:flex-row gap-12 items-center relative z-10">
+              {/* Avatar */}
+              <div className="w-40 h-40 bg-linear-to-br from-blue-600 to-blue-700 text-white rounded-4xl flex items-center justify-center text-5xl font-bold shadow-2xl shrink-0">
+                E
+              </div>
+
+              <div className="flex-1 text-center md:text-left">
+                {/* Badges */}
+                <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+                  <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                    Série A
+                  </span>
+                  <span className="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                    CleanTech
+                  </span>
                 </div>
-                <h1 className="text-3xl font-bold text-bg-slate-950slate-950 mb-2">Carlos Silva</h1>
-                <p className="text-secondary font-bold text-sm uppercase tracking-widest mb-6">
-                  Growth Hacking Expert
+
+                {/* Title */}
+                <h1 className="text-5xl font-extrabold text-slate-900 mb-4">EcoFlow</h1>
+
+                {/* Description */}
+                <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
+                  Revolucionando a gestão hídrica urbana através de inteligência artificial e
+                  sensores IoT de baixo custo.
                 </p>
-                <div className="flex justify-center gap-2 mb-8">
-                  {[1, 2, 3, 4, 5].map(i => (
-                    <Star key={i} size={20} fill="#fbbf24" className="text-amber-400" />
-                  ))}
-                  <span className="ml-2 font-bold text-bg-slate-950slate-950">5.0</span>
-                </div>
-                <div className="flex gap-4">
-                  <button className="flex-1 bg-slate-950bg-slate-950slate-950 text-white py-4 rounded-2xl font-bold hover:bg-slate-950black transition-all">
-                    Contratar
-                  </button>
-                  <button className="p-4 bg-slate-950slate-50 text-slate-400 rounded-2xl hover:bg-slate-950slate-100 transition-all">
-                    <MessageCircle size={24} />
-                  </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Sobre o Negócio */}
+              <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-lg">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  <FileText className="text-blue-600" size={24} />
+                  Sobre o Negócio
+                </h2>
+                <p className="text-slate-700 leading-relaxed mb-6">
+                  A EcoFlow nasceu com a missão de reduzir o desperdício de água em grandes centros
+                  urbanos. Nossa tecnologia permite identificar vazamentos e padrões de consumo
+                  anômalos em tempo real, gerando uma economia média de 40% nas contas de água de
+                  nossos clientes.
+                </p>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-200">
+                  <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase mb-2">Time</div>
+                    <div className="text-2xl font-bold text-slate-900">12 Colaboradores</div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase mb-2">
+                      Fundada em
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">2024</div>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-primary rounded-[3rem] p-8 text-white shadow-xl shadow-blue-200">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="bg-slate-950white/20 p-3 rounded-2xl">
-                    <DollarSign size={24} />
-                  </div>
-                  <div>
-                    <div className="text-xs uppercase font-bold opacity-60">Taxa Horária</div>
-                    <div className="text-2xl font-extrabold">R$ 250,00</div>
+              {/* Pitch Deck */}
+              <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-lg">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6">Pitch Deck</h2>
+                <div className="aspect-video bg-slate-900 rounded-4xl flex items-center justify-center group cursor-pointer overflow-hidden relative hover:shadow-xl transition-shadow">
+                  <img
+                    src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80"
+                    className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-110 transition-all duration-700"
+                    alt="Pitch Preview"
+                  />
+                  <div className="relative z-10 flex flex-col items-center">
+                    <Rocket size={48} className="text-white mb-4 animate-bounce" />
+                    <span className="text-white font-bold text-lg">Visualizar Pitch Deck</span>
                   </div>
                 </div>
-                <button className="w-full bg-slate-950white text-secondary py-4 rounded-xl font-bold hover:bg-slate-950blue-50 transition-all">
-                  Ver Disponibilidade
-                </button>
               </div>
             </div>
 
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-12">
-              <section>
-                <h2 className="text-4xl font-bold text-bg-slate-950slate-950 mb-8 tracking-tight">
-                  Experiência e Visão
-                </h2>
-                <div className="relative">
-                  <Quote size={64} className="absolute -top-10 -left-10 text-slate-100 -z-10" />
-                  <p className="text-xl text-slate-600 leading-relaxed mb-8 italic">
-                    "Minha missão é ajudar founders a evitar os erros comuns do early stage e focar
-                    no que realmente importa: crescimento sustentável e retenção de usuários."
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="p-8 bg-slate-950white rounded-[2.5rem] border border-slate-100 shadow-sm">
-                    <h3 className="font-bold text-bg-slate-950slate-950 mb-4 flex items-center gap-2">
-                      <Award className="text-secondary" /> Especialidades
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {['Growth', 'User Acquisition', 'Retention', 'Unit Economics'].map(s => (
-                        <span
-                          key={s}
-                          className="bg-slate-950slate-50 text-slate-500 px-4 py-2 rounded-xl text-sm font-medium"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
+            {/* Sidebar Actions */}
+            <div className="space-y-6">
+              {/* Investment Card - Fundo escuro */}
+              <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-xl border border-slate-800">
+                <h3 className="text-xl font-bold mb-6">Interesse em investir?</h3>
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center gap-3 text-sm text-slate-200">
+                    <CheckCircle className="text-emerald-400 shrink-0" size={20} />
+                    <span>Acesso a dados financeiros</span>
                   </div>
-                  <div className="p-8 bg-slate-950white rounded-[2.5rem] border border-slate-100 shadow-sm">
-                    <h3 className="font-bold text-bg-slate-950slate-950 mb-4 flex items-center gap-2">
-                      <Briefcase className="text-secondary" /> Histórico
-                    </h3>
-                    <ul className="space-y-3 text-sm text-slate-500">
-                      <li>• Ex-VP Growth no Nubank</li>
-                      <li>• Mentor na 500 Startups</li>
-                      <li>• Advisor em 12+ Startups</li>
-                    </ul>
+                  <div className="flex items-center gap-3 text-sm text-slate-200">
+                    <CheckCircle className="text-emerald-400 shrink-0" size={20} />
+                    <span>Reunião direta com fundadores</span>
                   </div>
                 </div>
-              </section>
+                <button className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30">
+                  Expressar Interesse
+                </button>
+              </div>
 
-              <section>
-                <h2 className="text-2xl font-bold text-bg-slate-950slate-950 mb-8 underline decoration-secondary decoration-4 underline-offset-8">
-                  O que dizem os Founders
-                </h2>
-                <div className="grid grid-cols-1 gap-6">
-                  {[1, 2].map(i => (
-                    <div
-                      key={i}
-                      className="p-8 bg-slate-950white rounded-[2.5rem] border border-slate-100 shadow-sm"
-                    >
-                      <p className="text-slate-600 mb-6 font-medium">
-                        "O Carlos mudou completamente a forma como olhamos para nossos dados. Em 3
-                        meses, reduzimos nosso CAC em 40%."
-                      </p>
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-slate-950slate-100"></div>
-                        <div>
-                          <div className="font-bold text-bg-slate-950slate-950 text-sm">
-                            João Rezende
-                          </div>
-                          <div className="text-xs text-slate-400">CEO na TechFlow</div>
-                        </div>
-                      </div>
+              {/* Quick Links */}
+              <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-lg">
+                <h3 className="text-lg font-bold text-slate-900 mb-6">Links Rápidos</h3>
+                <div className="space-y-3">
+                  <a
+                    href="#"
+                    className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all group"
+                  >
+                    <div className="flex items-center gap-3 text-slate-700 font-medium">
+                      <Globe size={18} className="text-blue-600" />
+                      Website
                     </div>
-                  ))}
+                    <ArrowUpRight
+                      size={18}
+                      className="text-slate-400 group-hover:text-slate-600 transition-colors"
+                    />
+                  </a>
+                  <a
+                    href="/messages"
+                    className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all group"
+                  >
+                    <div className="flex items-center gap-3 text-slate-700 font-medium">
+                      <MessageSquare size={18} className="text-blue-600" />
+                      Chat Direto
+                    </div>
+                    <ArrowUpRight
+                      size={18}
+                      className="text-slate-400 group-hover:text-slate-600 transition-colors"
+                    />
+                  </a>
                 </div>
-              </section>
+              </div>
             </div>
           </div>
         </div>
@@ -131,4 +169,4 @@ const MentorProfilePage: React.FC = () => {
   )
 }
 
-export default MentorProfilePage
+export default StartupProfilePage
