@@ -52,14 +52,14 @@ const StartupMarketplacePage: React.FC = () => {
 
   return (
     <Layout showSidebar={true}>
-      <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div>
-              <h1 className="text-3xl font-extrabold text-slate-900 mb-2">
+              <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
                 Marketplace de Startups
               </h1>
-              <p className="text-slate-500">
+              <p className="text-slate-500 dark:text-slate-400">
                 Descubra as próximas unicórnios do ecossistema brasileiro.
               </p>
             </div>
@@ -71,11 +71,11 @@ const StartupMarketplacePage: React.FC = () => {
                   placeholder="Buscar por nome ou setor..."
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-slate-200 outline-none focus:ring-2 focus:ring-blue-100 transition-all font-medium"
+                  className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/20 transition-all font-medium"
                 />
               </div>
-              <button className="bg-white border border-slate-200 p-3 rounded-2xl hover:bg-slate-50 transition-all">
-                <Filter size={20} className="text-slate-600" />
+              <button className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-750 transition-all">
+                <Filter size={20} className="text-slate-600 dark:text-slate-400" />
               </button>
             </div>
           </div>
@@ -89,10 +89,10 @@ const StartupMarketplacePage: React.FC = () => {
               {filteredStartups.map(startup => (
                 <div
                   key={startup._id}
-                  className="bg-white rounded-4xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col"
+                  className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl dark:shadow-black/40 hover:-translate-y-1 transition-all group flex flex-col"
                 >
                   <div className="flex justify-between items-start mb-6">
-                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                       <Rocket size={32} />
                     </div>
                     <span
@@ -107,7 +107,7 @@ const StartupMarketplacePage: React.FC = () => {
                       {startup.stage}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                     {startup.name}
                   </h3>
                   <div className="flex items-center gap-2 text-sm text-slate-400 mb-4 font-medium uppercase">
@@ -118,17 +118,17 @@ const StartupMarketplacePage: React.FC = () => {
                       <span>{startup.team_size} pessoas</span>
                     </div>
                   </div>
-                  <p className="text-slate-600 mb-8 line-clamp-2 leading-relaxed flex-1">
+                  <p className="text-slate-600 dark:text-slate-400 mb-8 line-clamp-2 leading-relaxed flex-1">
                     {startup.description}
                   </p>
-                  <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                  <div className="flex items-center justify-between pt-6 border-t border-slate-50 dark:border-slate-800">
                     <button
                       onClick={() => navigate(`/startups/${startup._id}`)}
-                      className="text-blue-600 font-bold flex items-center gap-2 hover:underline"
+                      className="text-blue-600 dark:text-blue-400 font-bold flex items-center gap-2 hover:underline"
                     >
                       Ver detalhes <ExternalLink size={16} />
                     </button>
-                    <button className="bg-slate-900 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-black transition-all">
+                    <button className="bg-slate-900 dark:bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-black dark:hover:bg-blue-700 transition-all">
                       Investir
                     </button>
                   </div>
