@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Lock, LogIn, Mail, ArrowLeft } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../services/api'
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -9,6 +9,13 @@ const LoginPage: React.FC = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({})
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/dashboard')
+    }
+  }, [navigate])
 
   // Validação de email
   const validateEmail = (email: string) => {
@@ -46,14 +53,15 @@ const LoginPage: React.FC = () => {
     setIsLoading(true)
 
     try {
-      // Simular delay de requisição
-      await new Promise(resolve => setTimeout(resolve, 1000))
-
-      localStorage.setItem('token', 'fake-jwt')
-      localStorage.setItem('userEmail', email)
+      const response = await api.post('/auth/login', { email, password })
+      
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      
       navigate('/dashboard')
-    } catch (error) {
-      setErrors({ general: 'Erro ao fazer login. Tente novamente.' })
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Erro ao fazer login. Verifique suas credenciais.'
+      setErrors({ general: message })
     } finally {
       setIsLoading(false)
     }

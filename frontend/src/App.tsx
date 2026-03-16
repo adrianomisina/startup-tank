@@ -13,6 +13,11 @@ import StartupMarketplacePage from './pages/StartupMarketplacePage'
 import StartupProfilePage from './pages/StartupProfilePage'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
+import MyStartupPage from './pages/MyStartupPage'
+import RegisterStartupPage from './pages/RegisterStartupPage'
+import SettingsPage from './pages/SettingsPage'
+import MyMentorProfilePage from './pages/MyMentorProfilePage'
+import InvestorFocusPage from './pages/InvestorFocusPage'
 
 const App: React.FC = () => {
   return (
@@ -24,9 +29,14 @@ const App: React.FC = () => {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/my-startup" element={<MyStartupPage />} />
+        <Route path="/register-startup" element={<RegisterStartupPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/messages" element={<MessagingPage />} />
         <Route path="/admin" element={<AdminDashboardPage />} />
         {/* Profile Views */}
+        <Route path="/mentor-profile" element={<MyMentorProfilePage />} />
+        <Route path="/investor-focus" element={<InvestorFocusPage />} />
         <Route path="/startups/:id" element={<StartupProfilePage />} />
         <Route path="/mentores/:id" element={<MentorProfilePage />} />
         {/* Marketplaces */}

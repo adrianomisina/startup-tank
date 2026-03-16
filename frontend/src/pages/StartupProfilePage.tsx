@@ -8,14 +8,64 @@ import {
   Rocket
 } from 'lucide-react'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Layout from '../components/Layout'
+import api from '../services/api'
 
 const StartupProfilePage: React.FC = () => {
   const navigate = useNavigate()
+  const { id } = useParams()
+  const [startup, setStartup] = React.useState<any>(null)
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    const fetchStartup = async () => {
+      try {
+        setLoading(true)
+        const response = await api.get(`/startups/${id}`)
+        setStartup(response.data)
+      } catch (err: any) {
+        console.error('Error fetching startup:', err)
+        setError('Não foi possível carregar os dados da startup.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (id) {
+      fetchStartup()
+    }
+  }, [id])
+
+  if (loading) {
+    return (
+      <Layout showSidebar={true}>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+        </div>
+      </Layout>
+    )
+  }
+
+  if (error || !startup) {
+    return (
+      <Layout showSidebar={true}>
+        <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <p className="text-slate-600 mb-4">{error || 'Startup não encontrada.'}</p>
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold"
+          >
+            Voltar
+          </button>
+        </div>
+      </Layout>
+    )
+  }
 
   return (
-    <Layout>
+    <Layout showSidebar={true}>
       <div className="bg-slate-50 min-h-screen py-12 px-4">
         {/* Botão Voltar */}
         <button
@@ -35,27 +85,26 @@ const StartupProfilePage: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-12 items-center relative z-10">
               {/* Avatar */}
               <div className="w-40 h-40 bg-linear-to-br from-blue-600 to-blue-700 text-white rounded-4xl flex items-center justify-center text-5xl font-bold shadow-2xl shrink-0">
-                E
+                {startup.name[0]}
               </div>
 
               <div className="flex-1 text-center md:text-left">
                 {/* Badges */}
                 <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
                   <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
-                    Série A
+                    {startup.stage}
                   </span>
                   <span className="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
-                    CleanTech
+                    {startup.industry}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h1 className="text-5xl font-extrabold text-slate-900 mb-4">EcoFlow</h1>
+                <h1 className="text-5xl font-extrabold text-slate-900 mb-4">{startup.name}</h1>
 
                 {/* Description */}
                 <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
-                  Revolucionando a gestão hídrica urbana através de inteligência artificial e
-                  sensores IoT de baixo custo.
+                  {startup.description}
                 </p>
               </div>
             </div>
@@ -71,23 +120,20 @@ const StartupProfilePage: React.FC = () => {
                   Sobre o Negócio
                 </h2>
                 <p className="text-slate-700 leading-relaxed mb-6">
-                  A EcoFlow nasceu com a missão de reduzir o desperdício de água em grandes centros
-                  urbanos. Nossa tecnologia permite identificar vazamentos e padrões de consumo
-                  anômalos em tempo real, gerando uma economia média de 40% nas contas de água de
-                  nossos clientes.
+                  {startup.longDescription || startup.description}
                 </p>
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-200">
                   <div>
                     <div className="text-xs font-bold text-slate-500 uppercase mb-2">Time</div>
-                    <div className="text-2xl font-bold text-slate-900">12 Colaboradores</div>
+                    <div className="text-2xl font-bold text-slate-900">{startup.team_size || '0'} Colaboradores</div>
                   </div>
                   <div>
                     <div className="text-xs font-bold text-slate-500 uppercase mb-2">
                       Fundada em
                     </div>
-                    <div className="text-2xl font-bold text-slate-900">2024</div>
+                    <div className="text-2xl font-bold text-slate-900">{startup.foundedYear || '2024'}</div>
                   </div>
                 </div>
               </div>
@@ -134,7 +180,9 @@ const StartupProfilePage: React.FC = () => {
                 <h3 className="text-lg font-bold text-slate-900 mb-6">Links Rápidos</h3>
                 <div className="space-y-3">
                   <a
-                    href="#"
+                    href={startup.website || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all group"
                   >
                     <div className="flex items-center gap-3 text-slate-700 font-medium">

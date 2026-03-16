@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CheckCircle2,
   ChevronRight,
@@ -8,20 +7,30 @@ import {
   Rocket,
   Search,
   TrendingUp,
-  Users,
-  Menu,
-  X
+  Users
 } from 'lucide-react'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
-import Sidebar from '../components/Sidebar'
 
 const DashboardPage: React.FC = () => {
-  const [role, setRole] = useState<'founder' | 'mentor' | 'investor'>('founder')
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [user, setUser] = React.useState<any>(null)
+  const [role, setRole] = useState<'startup_founder' | 'mentor' | 'investor'>('startup_founder')
+  const navigate = useNavigate()
+
+  React.useEffect(() => {
+    const userJson = localStorage.getItem('user')
+    if (userJson) {
+      const userData = JSON.parse(userJson)
+      setUser(userData)
+      // Normalizar o papel para os tipos esperados no dashboard
+      const normalizedRole = userData.role === 'founder' ? 'startup_founder' : userData.role
+      setRole(normalizedRole)
+    }
+  }, [])
 
   const stats = {
-    founder: [
+    startup_founder: [
       {
         label: 'Pitch Decks Enviados',
         value: '12',
@@ -93,56 +102,15 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <Layout>
+    <Layout showSidebar={true} role={role}>
       <div className="flex bg-slate-50 min-h-screen">
-        {/* Sidebar - Hidden on mobile, visible on md+ */}
-        <div className="hidden md:block">
-          <Sidebar role={role as any} />
-        </div>
-
-        {/* Mobile Sidebar Overlay */}
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-
-        {/* Mobile Sidebar */}
-        <div
-          className={`fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-50 transform transition-transform duration-300 md:hidden ${
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-        >
-          <div className="p-4 flex justify-end">
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-            >
-              <X size={24} className="text-slate-600" />
-            </button>
-          </div>
-          <Sidebar role={role as any} />
-        </div>
-
         {/* Main Content */}
         <main className="flex-1 w-full overflow-hidden">
           <div className="p-4 sm:p-6 lg:p-8">
             <div className="max-w-6xl mx-auto">
-              {/* Mobile Header with Menu Button */}
-              <div className="flex items-center justify-between mb-6 md:hidden">
-                <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-                <button
-                  onClick={() => setSidebarOpen(true)}
-                  className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-                >
-                  <Menu size={24} className="text-slate-600" />
-                </button>
-              </div>
-
               {/* Role Switcher - Scrollable on mobile */}
               <div className="flex gap-2 mb-6 sm:mb-8 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
-                {['founder', 'mentor', 'investor'].map(r => (
+                {['startup_founder', 'mentor', 'investor'].map(r => (
                   <button
                     key={r}
                     onClick={() => setRole(r as any)}
@@ -152,21 +120,28 @@ const DashboardPage: React.FC = () => {
                         : 'text-slate-700 hover:bg-slate-100'
                     }`}
                   >
-                    {r}
+                    {r.replace('_', ' ')}
                   </button>
                 ))}
               </div>
 
               {/* Header - Stacked on mobile */}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                <div className="hidden sm:block">
-                  <h1 className="text-3xl font-bold text-slate-900">Olá, Adriano 👋</h1>
+                <div>
+                  <h1 className="text-3xl font-bold text-slate-900">Olá, {user?.name?.split(' ')[0] || 'Adriano'} 👋</h1>
                   <p className="text-slate-600 text-lg">Aqui está o que está acontecendo hoje.</p>
                 </div>
-                <button className="w-full sm:w-auto bg-blue-600 text-white px-4 sm:px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200 shrink-0">
+                <button 
+                  onClick={() => {
+                    if (role === 'startup_founder') navigate('/register-startup')
+                    if (role === 'investor') navigate('/startups')
+                    if (role === 'mentor') navigate('/messages') // or something else
+                  }}
+                  className="w-full sm:w-auto bg-blue-600 text-white px-4 sm:px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200 shrink-0"
+                >
                   <Plus size={20} />
                   <span className="text-sm sm:text-base">
-                    {role === 'founder'
+                    {role === 'startup_founder'
                       ? 'Nova Startup'
                       : role === 'mentor'
                         ? 'Disponibilidade'
@@ -244,21 +219,22 @@ const DashboardPage: React.FC = () => {
                       {
                         title: 'Complete seu Perfil',
                         desc: 'Aumente sua visibilidade em 300%',
-                        action: 'Completar'
+                        path: role === 'startup_founder' || (user?.role === 'founder') ? '/register-startup' : (role === 'mentor' ? '/mentor-profile' : '/investor-focus')
                       },
                       {
                         title: 'Buscar Mentores',
                         desc: 'Encontre especialistas em Growth',
-                        action: 'Buscar'
+                        path: '/mentores'
                       },
                       {
-                        title: 'Verificar Pitch Deck',
-                        desc: 'Obtenha feedback antes de enviar',
-                        action: 'Verificar'
+                        title: 'Explorar Startups',
+                        desc: 'Novos negócios promissores',
+                        path: '/startups'
                       }
                     ].map((item, i) => (
                       <div
                         key={i}
+                        onClick={() => navigate(item.path)}
                         className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-50 flex items-center justify-between group hover:bg-slate-100 hover:border-slate-300 transition-all border border-slate-200 cursor-pointer"
                       >
                         <div className="min-w-0">
