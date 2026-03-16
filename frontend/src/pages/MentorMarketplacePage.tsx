@@ -55,12 +55,12 @@ const MentorMarketplacePage: React.FC = () => {
 
   return (
     <Layout showSidebar={true}>
-      <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div>
-              <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Encontre seu Mentor</h1>
-              <p className="text-slate-600">
+              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">Encontre seu Mentor</h1>
+              <p className="text-slate-600 dark:text-slate-400">
                 Conecte-se com quem já chegou lá e acelere sua curva de aprendizado.
               </p>
             </div>
@@ -72,7 +72,7 @@ const MentorMarketplacePage: React.FC = () => {
                 placeholder="Ex: Growth, Fundraising..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
               />
             </div>
           </div>
@@ -87,11 +87,11 @@ const MentorMarketplacePage: React.FC = () => {
                 filteredMentors.map(mentor => (
                   <div
                     key={mentor._id}
-                    className="bg-white rounded-3xl p-8 border border-slate-200 flex flex-col md:flex-row gap-8 hover:shadow-lg hover:-translate-y-1 transition-all group cursor-pointer"
+                    className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row gap-8 hover:shadow-lg dark:hover:shadow-black/40 hover:-translate-y-1 transition-all group cursor-pointer"
                     onClick={() => navigate(`/mentors/${mentor._id}`)}
                   >
                     <div className="relative shrink-0">
-                      <div className="w-32 h-32 rounded-3xl bg-slate-100 overflow-hidden">
+                      <div className="w-32 h-32 rounded-3xl bg-slate-100 dark:bg-slate-800 overflow-hidden">
                         <img
                           src={`https://i.pravatar.cc/150?u=${mentor._id}`}
                           alt={mentor.userId?.name}
@@ -106,8 +106,8 @@ const MentorMarketplacePage: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-4">
                         <div>
-                          <h3 className="text-2xl font-bold text-slate-900">{mentor.userId?.name}</h3>
-                          <p className="text-blue-600 font-bold text-sm uppercase tracking-wide">
+                          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{mentor.userId?.name}</h3>
+                          <p className="text-blue-600 dark:text-blue-400 font-bold text-sm uppercase tracking-wide">
                             {mentor.expertise?.[0]}
                           </p>
                         </div>
@@ -117,22 +117,22 @@ const MentorMarketplacePage: React.FC = () => {
                         </div>
                       </div>
 
-                      <p className="text-slate-600 mb-6 text-sm leading-relaxed line-clamp-2">
+                      <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm leading-relaxed line-clamp-2">
                         {mentor.bio}
                       </p>
 
-                      <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-200">
-                        <div className="flex items-center gap-2 text-slate-600 text-sm">
-                          <Briefcase size={16} className="text-blue-600 shrink-0" />
+                      <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+                        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm">
+                          <Briefcase size={16} className="text-blue-600 dark:text-blue-400 shrink-0" />
                           <span>
-                            <span className="font-bold text-slate-900">{mentor.years_experience}</span> anos
+                            <span className="font-bold text-slate-900 dark:text-white">{mentor.years_experience}</span> anos
                             exp.
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 text-slate-600 text-sm">
-                          <DollarSign size={16} className="text-emerald-600 shrink-0" />
+                        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm">
+                          <DollarSign size={16} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                           <span>
-                            R$ <span className="font-bold text-slate-900">{mentor.hourly_rate}</span>/hora
+                            R$ <span className="font-bold text-slate-900 dark:text-white">{mentor.hourly_rate}</span>/hora
                           </span>
                         </div>
                       </div>
@@ -142,8 +142,8 @@ const MentorMarketplacePage: React.FC = () => {
                           <Calendar size={18} />
                           Agendar
                         </button>
-                        <button className="px-4 py-3 border border-slate-300 rounded-xl hover:bg-slate-50 transition-all flex items-center justify-center">
-                          <ChevronRight size={20} className="text-slate-600" />
+                        <button className="px-4 py-3 border border-slate-300 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all flex items-center justify-center">
+                          <ChevronRight size={20} className="text-slate-600 dark:text-slate-400" />
                         </button>
                       </div>
                     </div>

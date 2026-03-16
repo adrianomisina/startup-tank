@@ -52,14 +52,14 @@ const InvestorMarketplacePage: React.FC = () => {
 
   return (
     <Layout showSidebar={true}>
-      <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div>
-              <h1 className="text-4xl font-extrabold text-slate-900 mb-2">
+              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">
                 Marketplace de Investidores
               </h1>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-400">
                 Encontre os parceiros de capital ideais para o seu estágio atual.
               </p>
             </div>
@@ -71,7 +71,7 @@ const InvestorMarketplacePage: React.FC = () => {
                 placeholder="Buscar por nome ou foco..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
               />
             </div>
           </div>
@@ -86,19 +86,19 @@ const InvestorMarketplacePage: React.FC = () => {
                 filteredInvestors.map(investor => (
                   <div
                     key={investor._id}
-                    className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col"
+                    className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg dark:hover:shadow-black/40 hover:-translate-y-1 transition-all flex flex-col"
                   >
                     <div className="flex items-center gap-4 mb-8">
                       <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl shrink-0">
                         {investor.userId?.name?.[0] || 'I'}
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-slate-900">{investor.userId?.name}</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">{investor.userId?.name}</h3>
                         <div className="flex flex-wrap gap-1 mt-2">
                           {investor.investment_focus?.map((f: string) => (
                             <span
                               key={f}
-                              className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full"
+                              className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/30 px-2 py-0.5 rounded-full"
                             >
                               {f}
                             </span>
@@ -107,15 +107,15 @@ const InvestorMarketplacePage: React.FC = () => {
                       </div>
                     </div>
 
-                    <p className="text-slate-600 text-sm mb-8 leading-relaxed line-clamp-3 flex-1">
+                    <p className="text-slate-600 dark:text-slate-400 text-sm mb-8 leading-relaxed line-clamp-3 flex-1">
                       {investor.thesis}
                     </p>
 
-                    <div className="space-y-4 mb-8 pb-8 border-b border-slate-200">
+                    <div className="space-y-4 mb-8 pb-8 border-b border-slate-200 dark:border-slate-800">
                       <div className="flex items-center gap-3 text-sm font-medium">
                         <DollarSign size={18} className="text-blue-600 shrink-0" />
-                        <span className="text-slate-600">
-                          Ticket: <span className="text-slate-900 font-bold">
+                        <span className="text-slate-600 dark:text-slate-400">
+                          Ticket: <span className="text-slate-900 dark:text-white font-bold">
                             R$ {(investor.ticket_size_min / 1000).toFixed(0)}k - {(investor.ticket_size_max / 1000).toFixed(0)}k
                           </span>
                         </span>
@@ -123,9 +123,9 @@ const InvestorMarketplacePage: React.FC = () => {
 
                       <div className="flex items-center gap-3 text-sm font-medium">
                         <Briefcase size={18} className="text-emerald-600 shrink-0" />
-                        <span className="text-slate-600">
+                        <span className="text-slate-600 dark:text-slate-400">
                           Portfólio:{' '}
-                          <span className="text-slate-900 font-bold">
+                          <span className="text-slate-900 dark:text-white font-bold">
                             {investor.portfolio?.length || 0} startups
                           </span>
                         </span>

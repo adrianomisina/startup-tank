@@ -103,13 +103,13 @@ const DashboardPage: React.FC = () => {
 
   return (
     <Layout showSidebar={true} role={role}>
-      <div className="flex bg-slate-50 min-h-screen">
+      <div className="flex bg-transparent min-h-screen">
         {/* Main Content */}
         <main className="flex-1 w-full overflow-hidden">
           <div className="p-4 sm:p-6 lg:p-8">
             <div className="max-w-6xl mx-auto">
               {/* Role Switcher - Scrollable on mobile */}
-              <div className="flex gap-2 mb-6 sm:mb-8 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+              <div className="flex gap-2 mb-6 sm:mb-8 bg-white dark:bg-slate-800/40 p-2 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-x-auto backdrop-blur-sm">
                 {['startup_founder', 'mentor', 'investor'].map(r => (
                   <button
                     key={r}
@@ -117,7 +117,7 @@ const DashboardPage: React.FC = () => {
                     className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold capitalize transition-all whitespace-nowrap shrink-0 ${
                       role === r
                         ? 'bg-blue-600 text-white shadow-md'
-                        : 'text-slate-700 hover:bg-slate-100'
+                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50'
                     }`}
                   >
                     {r.replace('_', ' ')}
@@ -128,8 +128,8 @@ const DashboardPage: React.FC = () => {
               {/* Header - Stacked on mobile */}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                 <div>
-                  <h1 className="text-3xl font-bold text-slate-900">Olá, {user?.name?.split(' ')[0] || 'Adriano'} 👋</h1>
-                  <p className="text-slate-600 text-lg">Aqui está o que está acontecendo hoje.</p>
+                  <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Olá, {user?.name?.split(' ')[0] || 'Adriano'} 👋</h1>
+                  <p className="text-slate-600 dark:text-slate-400 text-lg">Aqui está o que está acontecendo hoje.</p>
                 </div>
                 <button 
                   onClick={() => {
@@ -137,7 +137,7 @@ const DashboardPage: React.FC = () => {
                     if (role === 'investor') navigate('/startups')
                     if (role === 'mentor') navigate('/messages') // or something else
                   }}
-                  className="w-full sm:w-auto bg-blue-600 text-white px-4 sm:px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200 shrink-0"
+                  className="w-full sm:w-auto bg-blue-600 text-white px-4 sm:px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 shrink-0"
                 >
                   <Plus size={20} />
                   <span className="text-sm sm:text-base">
@@ -155,17 +155,17 @@ const DashboardPage: React.FC = () => {
                 {stats[role].map((stat, index) => (
                   <div
                     key={index}
-                    className="bg-white p-6 sm:p-8 rounded-3xl sm:rounded-4xl border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                    className="bg-white dark:bg-slate-900/40 p-6 sm:p-8 rounded-3xl sm:rounded-4xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all backdrop-blur-sm"
                   >
                     <div
-                      className={`${stat.bg} ${stat.color} w-12 h-12 rounded-2xl flex items-center justify-center mb-4 sm:mb-6`}
+                      className={`${stat.bg} dark:bg-blue-500/10 ${stat.color} dark:text-blue-400 w-12 h-12 rounded-2xl flex items-center justify-center mb-4 sm:mb-6`}
                     >
                       <stat.icon size={24} />
                     </div>
-                    <div className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
+                    <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-1">
                       {stat.value}
                     </div>
-                    <div className="text-sm sm:text-base text-slate-600 font-medium">
+                    <div className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium">
                       {stat.label}
                     </div>
                   </div>
@@ -175,9 +175,9 @@ const DashboardPage: React.FC = () => {
               {/* Content Sections - Stacked on mobile */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                 {/* Activity Feed */}
-                <div className="bg-white rounded-3xl sm:rounded-4xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                <div className="bg-white dark:bg-slate-900/40 rounded-3xl sm:rounded-4xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm backdrop-blur-sm">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
-                    <h2 className="text-lg sm:text-xl font-bold text-slate-900">
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
                       Atividade Recente
                     </h2>
                     <button className="text-blue-600 font-bold text-xs sm:text-sm hover:text-blue-700 hover:underline transition-colors whitespace-nowrap">
@@ -188,16 +188,16 @@ const DashboardPage: React.FC = () => {
                     {[1, 2, 3].map(i => (
                       <div
                         key={i}
-                        className="flex items-start sm:items-center gap-3 sm:gap-4 group cursor-pointer p-2 sm:p-3 rounded-lg hover:bg-slate-50 transition-colors"
+                        className="flex items-start sm:items-center gap-3 sm:gap-4 group cursor-pointer p-2 sm:p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                       >
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-200 transition-colors shrink-0">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-200 transition-colors shrink-0">
                           <MessageSquare size={18} className="sm:w-5 sm:h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-bold text-sm sm:text-base text-slate-900 group-hover:text-blue-600 transition-colors">
+                          <div className="font-bold text-sm sm:text-base text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
                             Nova mensagem de Carlos Silva
                           </div>
-                          <div className="text-xs sm:text-sm text-slate-600 truncate">
+                          <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">
                             "Olá Adriano, vi o seu pitch e gostaria de marcar uma conversa..."
                           </div>
                         </div>
@@ -210,8 +210,8 @@ const DashboardPage: React.FC = () => {
                 </div>
 
                 {/* Recommended/Quick Actions */}
-                <div className="bg-white rounded-3xl sm:rounded-4xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-8">
+                <div className="bg-white dark:bg-slate-900/40 rounded-3xl sm:rounded-4xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm backdrop-blur-sm">
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-8">
                     Sugestões para Você
                   </h2>
                   <div className="space-y-3 sm:space-y-4">
@@ -235,13 +235,13 @@ const DashboardPage: React.FC = () => {
                       <div
                         key={i}
                         onClick={() => navigate(item.path)}
-                        className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-50 flex items-center justify-between group hover:bg-slate-100 hover:border-slate-300 transition-all border border-slate-200 cursor-pointer"
+                        className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-100/50 dark:bg-slate-800/30 flex items-center justify-between group hover:bg-slate-200/50 dark:hover:bg-slate-800/60 transition-all border border-slate-200 dark:border-slate-800/50 cursor-pointer shadow-sm hover:shadow-md"
                       >
                         <div className="min-w-0">
-                          <div className="font-bold text-sm sm:text-base text-slate-900">
+                          <div className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
                             {item.title}
                           </div>
-                          <div className="text-xs text-slate-600">{item.desc}</div>
+                          <div className="text-xs text-slate-600 dark:text-slate-400">{item.desc}</div>
                         </div>
                         <ChevronRight
                           size={20}

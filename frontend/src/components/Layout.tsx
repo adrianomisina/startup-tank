@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false, role: in
   }, [initialRole])
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 transition-colors duration-300">
       <Navbar onToggleSidebar={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)} showSidebarButton={showSidebar} />
       
       <div className="flex flex-1 pt-16">
@@ -49,16 +49,16 @@ const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false, role: in
         {/* Mobile Sidebar */}
         {showSidebar && (
           <div
-            className={`fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-50 transform transition-transform duration-300 md:hidden ${
+            className={`fixed left-0 top-0 h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-50 transform transition-transform duration-300 md:hidden ${
               isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
           >
             <div className="p-4 flex justify-end pt-20">
               <button
                 onClick={() => setIsMobileSidebarOpen(false)}
-                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
               >
-                <X size={24} className="text-slate-600" />
+                <X size={24} className="text-slate-600 dark:text-slate-400" />
               </button>
             </div>
             <Sidebar role={role} />
@@ -75,7 +75,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showSidebar = false, role: in
         <main className="flex-1 w-full">{children}</main>
       </div>
 
-      <footer className="bg-slate-900 border-t border-slate-800 text-slate-400 py-12 px-4">
+      <footer className="bg-slate-900 dark:bg-black border-t border-slate-200 dark:border-slate-800 text-slate-400 py-12 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-white text-lg font-bold mb-4">StartupTank</h3>
