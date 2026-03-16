@@ -4,6 +4,19 @@ import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Get current user investor profile
+router.get('/me', verifyToken, async (req, res) => {
+  try {
+    const investor = await Investor.findOne({ userId: req.user.id }).populate('userId', 'name email profilePicture');
+    if (!investor) {
+      return res.status(404).json({ message: 'Perfil de investidor não encontrado.' });
+    }
+    res.json(investor);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Get all investors
 router.get('/', async (req, res) => {
   try {
