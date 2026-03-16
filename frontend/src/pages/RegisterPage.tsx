@@ -1,14 +1,51 @@
-import { ChevronRight, Rocket, Target, Users } from 'lucide-react'
-import React, { useState } from 'react'
+import { ChevronRight, Rocket, Target, Users, Lock } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../services/api'
 
 const RegisterPage: React.FC = () => {
   const [role, setRole] = useState<'founder' | 'mentor' | 'investor'>('founder')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleRegister = (e: React.FormEvent) => {
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/dashboard')
+    }
+  }, [navigate])
+
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    navigate('/dashboard')
+    setError(null)
+    setLoading(true)
+
+    try {
+      const response = await api.post('/auth/register', {
+        name,
+        email,
+        password,
+        role
+      })
+
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      
+      const userRole = response.data.user.role
+      if (userRole === 'startup_founder') {
+        navigate('/register-startup')
+      } else {
+        navigate('/dashboard')
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Erro ao realizar cadastro.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -118,6 +155,12 @@ const RegisterPage: React.FC = () => {
               </button>
             </div>
 
+            {error && (
+              <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-xl flex items-center gap-3">
+                <p className="text-red-700 font-medium text-sm">{error}</p>
+              </div>
+            )}
+
             <form onSubmit={handleRegister} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-900 mb-2">
@@ -125,25 +168,49 @@ const RegisterPage: React.FC = () => {
                 </label>
                 <input
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                   placeholder="Adriano Misina"
                   required
+                  disabled={loading}
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-900 mb-2">Email</label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                   placeholder="adriano@gmail.com"
                   required
+                  disabled={loading}
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-900 mb-2">Senha</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3.5 text-slate-400" size={18} />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                    placeholder="••••••••"
+                    required
+                    disabled={loading}
+                  />
+                </div>
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 mt-6"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Criar Conta <ChevronRight size={20} />
+                {loading ? 'Criando conta...' : (
+                  <>Criar Conta <ChevronRight size={20} /></>
+                )}
               </button>
             </form>
 

@@ -13,6 +13,12 @@ const startupSchema = new mongoose.Schema({
   website: { type: String },
   pitch_deck_url: { type: String },
   team_size: { type: Number },
+  team: [
+    {
+      name: { type: String, required: true },
+      role: { type: String, required: true }
+    }
+  ],
   isApproved: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });

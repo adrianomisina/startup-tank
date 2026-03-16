@@ -1,8 +1,13 @@
-import { LogIn, LogOut, Rocket } from 'lucide-react'
+import { LogIn, LogOut, Menu, Rocket } from 'lucide-react'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onToggleSidebar?: () => void
+  showSidebarButton?: boolean
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, showSidebarButton = false }) => {
   // Inicializar o estado com o valor do localStorage
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const token = localStorage.getItem('token')
@@ -27,6 +32,16 @@ const Navbar: React.FC = () => {
     <nav className="bg-white border-b border-slate-200 fixed w-full z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
+          {/* Mobile Menu Button */}
+          {showSidebarButton && (
+            <button
+              onClick={onToggleSidebar}
+              className="md:hidden p-2 -ml-2 text-slate-600 hover:text-secondary transition-colors"
+            >
+              <Menu size={24} />
+            </button>
+          )}
+
           {/* Logo */}
           <div className="flex items-center gap-2">
             <button
@@ -40,24 +55,24 @@ const Navbar: React.FC = () => {
 
           {/* Menu Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="/startups"
+            <Link
+              to="/startups"
               className="text-slate-600 hover:text-secondary font-medium transition-colors"
             >
               Startups
-            </a>
-            <a
-              href="/mentores"
+            </Link>
+            <Link
+              to="/mentores"
               className="text-slate-600 hover:text-secondary font-medium transition-colors"
             >
               Mentores
-            </a>
-            <a
-              href="/investidores"
+            </Link>
+            <Link
+              to="/investidores"
               className="text-slate-600 hover:text-secondary font-medium transition-colors"
             >
               Investidores
-            </a>
+            </Link>
           </div>
 
           {/* Auth Button */}
