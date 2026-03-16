@@ -1,8 +1,18 @@
 import { ArrowRight, Rocket, TrendingUp, Users, Zap } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 
 const LandingPage: React.FC = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/dashboard')
+    }
+  }, [navigate])
+
   return (
     <Layout>
       {/* Hero Section */}

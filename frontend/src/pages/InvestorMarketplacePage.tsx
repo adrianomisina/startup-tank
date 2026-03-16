@@ -1,57 +1,59 @@
 import { Briefcase, DollarSign, ExternalLink, Search } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
+import api from '../services/api'
 
 const InvestorMarketplacePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [investors, setInvestors] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const investors = [
-    {
-      id: 1,
-      name: 'Anjos do Brasil',
-      focus: ['SaaS', 'FinTech'],
-      ticket: 'R$ 100k - 500k',
-      portfolio: 150,
-      bio: 'A maior rede de investidores anjo do país.'
-    },
-    {
-      id: 2,
-      name: 'Astella Investimentos',
-      focus: ['Marketplace', 'EdTech'],
-      ticket: 'R$ 500k - 2M',
-      portfolio: 45,
-      bio: 'Venture Capital focado em parcerias de longo prazo.'
-    },
-    {
-      id: 3,
-      name: 'Monashees',
-      focus: ['Consumer', 'Infrastructure'],
-      ticket: 'R$ 2M+',
-      portfolio: 80,
-      bio: 'Ajudando fundadores a construir negócios globais.'
-    },
-    {
-      id: 4,
-      name: 'Canary',
-      focus: ['Agnóstico'],
-      ticket: 'R$ 500k - 1M',
-      portfolio: 100,
-      bio: 'Primeiro cheque para fundadores excepcionais.'
+  useEffect(() => {
+    const fetchInvestors = async () => {
+      try {
+        setLoading(true)
+        const res = await api.get('/investors')
+        setInvestors(res.data)
+      } catch (err) {
+        console.error('Error fetching investors:', err)
+        // Fallback mock data
+        setInvestors([
+          {
+            _id: '1',
+            userId: { name: 'Anjos do Brasil' },
+            investment_focus: ['SaaS', 'FinTech'],
+            ticket_size_min: 100000,
+            ticket_size_max: 500000,
+            portfolio: ['Startup A', 'Startup B'],
+            thesis: 'A maior rede de investidores anjo do país.'
+          },
+          {
+            _id: '2',
+            userId: { name: 'Astella Investimentos' },
+            investment_focus: ['Marketplace', 'EdTech'],
+            ticket_size_min: 500000,
+            ticket_size_max: 2000000,
+            portfolio: ['Startup C'],
+            thesis: 'Venture Capital focado em parcerias de longo prazo.'
+          }
+        ])
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+    fetchInvestors()
+  }, [])
 
-  // Filtrar investidores baseado no searchTerm
   const filteredInvestors = investors.filter(
     investor =>
-      investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      investor.focus.some(f => f.toLowerCase().includes(searchTerm.toLowerCase()))
+      (investor.userId?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (investor.investment_focus || []).some((f: string) => f.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
   return (
-    <Layout>
+    <Layout showSidebar={true}>
       <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div>
               <h1 className="text-4xl font-extrabold text-slate-900 mb-2">
@@ -62,7 +64,6 @@ const InvestorMarketplacePage: React.FC = () => {
               </p>
             </div>
 
-            {/* Search Bar */}
             <div className="relative flex-1 md:w-80">
               <Search className="absolute left-3 top-3 text-slate-400" size={20} />
               <input
@@ -75,77 +76,77 @@ const InvestorMarketplacePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Investors Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredInvestors.length > 0 ? (
-              filteredInvestors.map(investor => (
-                <div
-                  key={investor.id}
-                  className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
-                >
-                  {/* Avatar + Name */}
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl shrink-0">
-                      {investor.name[0]}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-900">{investor.name}</h3>
-                      {/* Focus Tags */}
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {investor.focus.map(f => (
-                          <span
-                            key={f}
-                            className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full"
-                          >
-                            {f}
-                          </span>
-                        ))}
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredInvestors.length > 0 ? (
+                filteredInvestors.map(investor => (
+                  <div
+                    key={investor._id}
+                    className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col"
+                  >
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl shrink-0">
+                        {investor.userId?.name?.[0] || 'I'}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-slate-900">{investor.userId?.name}</h3>
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {investor.investment_focus?.map((f: string) => (
+                            <span
+                              key={f}
+                              className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full"
+                            >
+                              {f}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Bio */}
-                  <p className="text-slate-600 text-sm mb-8 leading-relaxed line-clamp-2">
-                    {investor.bio}
-                  </p>
+                    <p className="text-slate-600 text-sm mb-8 leading-relaxed line-clamp-3 flex-1">
+                      {investor.thesis}
+                    </p>
 
-                  {/* Info Section */}
-                  <div className="space-y-4 mb-8 pb-8 border-b border-slate-200">
-                    {/* Ticket Size */}
-                    <div className="flex items-center gap-3 text-sm font-medium">
-                      <DollarSign size={18} className="text-blue-600 shrink-0" />
-                      <span className="text-slate-600">
-                        Ticket: <span className="text-slate-900 font-bold">{investor.ticket}</span>
-                      </span>
-                    </div>
-
-                    {/* Portfolio */}
-                    <div className="flex items-center gap-3 text-sm font-medium">
-                      <Briefcase size={18} className="text-emerald-600 shrink-0" />
-                      <span className="text-slate-600">
-                        Portfólio:{' '}
-                        <span className="text-slate-900 font-bold">
-                          {investor.portfolio} startups
+                    <div className="space-y-4 mb-8 pb-8 border-b border-slate-200">
+                      <div className="flex items-center gap-3 text-sm font-medium">
+                        <DollarSign size={18} className="text-blue-600 shrink-0" />
+                        <span className="text-slate-600">
+                          Ticket: <span className="text-slate-900 font-bold">
+                            R$ {(investor.ticket_size_min / 1000).toFixed(0)}k - {(investor.ticket_size_max / 1000).toFixed(0)}k
+                          </span>
                         </span>
-                      </span>
-                    </div>
-                  </div>
+                      </div>
 
-                  {/* CTA Button */}
-                  <button className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold hover:bg-blue-700 active:bg-blue-800 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
-                    Entrar em Contato
-                    <ExternalLink size={18} />
-                  </button>
+                      <div className="flex items-center gap-3 text-sm font-medium">
+                        <Briefcase size={18} className="text-emerald-600 shrink-0" />
+                        <span className="text-slate-600">
+                          Portfólio:{' '}
+                          <span className="text-slate-900 font-bold">
+                            {investor.portfolio?.length || 0} startups
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <button className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold hover:bg-blue-700 active:bg-blue-800 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                      Entrar em Contato
+                      <ExternalLink size={18} />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-slate-600 text-lg">
+                    Nenhum investidor encontrado
+                  </p>
                 </div>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-slate-600 text-lg">
-                  Nenhum investidor encontrado para "{searchTerm}"
-                </p>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </Layout>
