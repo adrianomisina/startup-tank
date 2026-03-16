@@ -16,21 +16,21 @@ const LandingPage: React.FC = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-white pt-16 pb-32">
+      <section className="relative overflow-hidden bg-white dark:bg-slate-950 pt-16 pb-32">
         {/* Gradientes mais sutis e visíveis */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-40"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-emerald-100 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-emerald-100 dark:bg-emerald-900/20 rounded-full blur-3xl opacity-40"></div>
 
         <div className="max-w-7xl mx-auto px-4 relative">
           <div className="text-center max-w-4xl mx-auto">
             {/* Badge com melhor contraste */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-semibold text-sm mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-semibold text-sm mb-8">
               <Zap size={16} />
               <span>A maior rede de startups do Brasil</span>
             </div>
 
             {/* Heading com cor sólida e legível */}
-            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white mb-8 tracking-tight">
               Onde Grandes Ideias Encontram{' '}
               <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
                 Grandes Investidores.
@@ -38,7 +38,7 @@ const LandingPage: React.FC = () => {
             </h1>
 
             {/* Texto com melhor contraste */}
-            <p className="text-xl text-slate-700 mb-12 leading-relaxed">
+            <p className="text-xl text-slate-700 dark:text-slate-300 mb-12 leading-relaxed">
               Conectamos fundadores visionários com mentores experientes e investidores anjo para
               acelerar o crescimento das startups brasileiras.
             </p>
@@ -53,7 +53,7 @@ const LandingPage: React.FC = () => {
               </a>
               <a
                 href="/investors"
-                className="bg-white text-blue-600 border-2 border-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-all flex items-center justify-center gap-2 shadow-md"
+                className="bg-white dark:bg-transparent text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all flex items-center justify-center gap-2 shadow-md"
               >
                 Sou Investidor
               </a>
@@ -63,72 +63,72 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             {/* Card 1 */}
-            <div className="bg-white rounded-4xl p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-slate-700 font-medium">Startups Cadastradas</div>
+            <div className="bg-white dark:bg-slate-800 rounded-4xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">500+</div>
+              <div className="text-slate-700 dark:text-slate-300 font-medium">Startups Cadastradas</div>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white rounded-4xl p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="text-4xl font-bold text-emerald-600 mb-2">R$ 50M+</div>
-              <div className="text-slate-700 font-medium">Investimentos Facilitados</div>
+            <div className="bg-white dark:bg-slate-800 rounded-4xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              <div className="text-4xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">R$ 50M+</div>
+              <div className="text-slate-700 dark:text-slate-300 font-medium">Investimentos Facilitados</div>
             </div>
 
             {/* Card 3 */}
-            <div className="bg-white rounded-4xl p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="text-4xl font-bold text-purple-600 mb-2">200+</div>
-              <div className="text-slate-700 font-medium">Mentores Atuais</div>
+            <div className="bg-white dark:bg-slate-800 rounded-4xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">200+</div>
+              <div className="text-slate-700 dark:text-slate-300 font-medium">Mentores Atuais</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-32 bg-white">
+      <section className="py-32 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">Recursos Feitos para Você</h2>
-            <p className="text-lg text-slate-600">
+            <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Recursos Feitos para Você</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400">
               Tudo o que você precisa para crescer ou investir em um só lugar.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="bg-white rounded-4xl p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="bg-blue-100 text-blue-600 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Rocket size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Marketplace de Startups</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Marketplace de Startups</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 Descubra as startups mais quentes por setor, estágio e localização. Navegue por
                 perfis detalhados e pitch decks.
               </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-white rounded-4xl p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="bg-emerald-100 text-emerald-600 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              <div className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Users size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Mentorias de Elite</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Mentorias de Elite</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 Conecte-se com fundadores experientes e especialistas de mercado que já trilharam o
                 caminho do sucesso.
               </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-white rounded-4xl p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="bg-purple-100 text-purple-600 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-white dark:bg-slate-900 rounded-4xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+              <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <TrendingUp size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Fluxo de Investimento</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Fluxo de Investimento</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 Ferramentas integradas para investidores gerenciarem seu deal flow e entrarem em
                 contato direto com fundadores.
               </p>

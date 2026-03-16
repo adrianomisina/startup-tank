@@ -32,16 +32,16 @@ const SettingsPage: React.FC = () => {
 
   return (
     <Layout showSidebar={true}>
-      <div className="bg-slate-50 min-h-screen p-4 sm:p-8 lg:p-12">
+      <div className="bg-slate-50 dark:bg-slate-950 min-h-screen p-4 sm:p-8 lg:p-12">
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-between items-start mb-12">
             <div>
-              <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Configurações</h1>
-              <p className="text-slate-600 text-lg">Gerencie sua conta e preferências da plataforma.</p>
+              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">Configurações</h1>
+              <p className="text-slate-600 dark:text-slate-400 text-lg">Gerencie sua conta e preferências da plataforma.</p>
             </div>
             <button 
               onClick={handleLogout}
-              className="px-6 py-3 rounded-2xl bg-red-50 text-red-600 font-bold hover:bg-red-100 transition-all flex items-center gap-2 border border-red-100"
+              className="px-6 py-3 rounded-2xl bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 font-bold hover:bg-red-100 dark:hover:bg-red-900/20 transition-all flex items-center gap-2 border border-red-100 dark:border-red-900/30"
             >
               <LogOut size={20} />
               <span className="hidden sm:inline">Sair da Conta</span>
@@ -58,8 +58,8 @@ const SettingsPage: React.FC = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold transition-all whitespace-nowrap ${
                       activeTab === tab.id
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 translate-x-1'
-                        : 'text-slate-600 hover:bg-white hover:text-blue-600'
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 dark:shadow-blue-900/30 translate-x-1'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 hover:text-blue-600'
                     }`}
                   >
                     <tab.icon size={20} />
@@ -71,16 +71,16 @@ const SettingsPage: React.FC = () => {
 
             {/* Content Area */}
             <div className="flex-1">
-              <div className="bg-white rounded-[2.5rem] p-8 sm:p-12 border border-slate-200 shadow-xl shadow-slate-200/50">
+              <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 sm:p-12 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/40">
                 {activeTab === 'profile' && (
                   <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div>
-                      <h2 className="text-2xl font-bold text-slate-900 mb-8">Informações do Perfil</h2>
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Informações do Perfil</h2>
                       
                       {/* Avatar Upload */}
-                      <div className="flex flex-col sm:flex-row items-center gap-8 mb-12 p-8 rounded-3xl bg-slate-50 border border-slate-100">
+                      <div className="flex flex-col sm:flex-row items-center gap-8 mb-12 p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                         <div className="relative group">
-                          <div className="w-32 h-32 bg-blue-100 text-blue-600 rounded-[2.5rem] flex items-center justify-center text-4xl font-bold border-4 border-white shadow-xl">
+                          <div className="w-32 h-32 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-[2.5rem] flex items-center justify-center text-4xl font-bold border-4 border-white dark:border-slate-700 shadow-xl">
                             {user?.name?.[0] || 'A'}
                           </div>
                           <button className="absolute -bottom-2 -right-2 p-3 bg-slate-900 text-white rounded-2xl shadow-lg hover:scale-110 transition-all">
@@ -88,13 +88,13 @@ const SettingsPage: React.FC = () => {
                           </button>
                         </div>
                         <div className="text-center sm:text-left">
-                          <h4 className="text-lg font-bold text-slate-900 mb-1">Foto de Perfil</h4>
-                          <p className="text-slate-500 text-sm mb-4">Recomendado: Quadrada, pelo menos 400x400px.</p>
+                          <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Foto de Perfil</h4>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">Recomendado: Quadrada, pelo menos 400x400px.</p>
                           <div className="flex flex-wrap justify-center sm:justify-start gap-3">
-                            <button className="bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-50 transition-all">
+                            <button className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-750 transition-all">
                               Fazer Upload
                             </button>
-                            <button className="text-red-600 px-4 py-2 text-sm font-bold hover:underline">
+                            <button className="text-red-600 dark:text-red-400 px-4 py-2 text-sm font-bold hover:underline transition-all">
                               Remover
                             </button>
                           </div>
@@ -103,19 +103,19 @@ const SettingsPage: React.FC = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-2">
-                          <label className="text-sm font-bold text-slate-700 ml-1">Nome Completo</label>
+                          <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Nome Completo</label>
                           <input
                             type="text"
                             defaultValue={user?.name}
-                            className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all font-medium"
+                            className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 outline-none transition-all font-medium"
                           />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-bold text-slate-700 ml-1">Email Profissional</label>
+                          <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Email Profissional</label>
                           <input
                             type="email"
                             defaultValue={user?.email}
-                            className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all font-medium"
+                            className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 outline-none transition-all font-medium"
                           />
                         </div>
                         <div className="md:col-span-2 space-y-2">
@@ -144,7 +144,7 @@ const SettingsPage: React.FC = () => {
                 {activeTab === 'security' && (
                   <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div>
-                      <h2 className="text-2xl font-bold text-slate-900 mb-8">Segurança da Conta</h2>
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Segurança da Conta</h2>
                       <div className="grid grid-cols-1 gap-8">
                         <div className="space-y-2">
                           <label className="text-sm font-bold text-slate-700 ml-1">Senha Atual</label>
@@ -252,7 +252,7 @@ const SettingsPage: React.FC = () => {
                 {activeTab === 'billing' && (
                   <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div>
-                      <h2 className="text-2xl font-bold text-slate-900 mb-8">Seu Plano e Assinatura</h2>
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Seu Plano e Assinatura</h2>
                       <div className="p-8 rounded-[2rem] bg-slate-900 text-white shadow-xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
                         <div className="relative z-10 flex flex-col sm:flex-row justify-between items-center gap-6">
