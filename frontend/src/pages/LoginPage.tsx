@@ -1,31 +1,21 @@
-import { Lock, LogIn, Mail, ArrowLeft, Moon, Sun } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+// src/pages/LoginPage.tsx
+import { Lock, LogIn, Mail, ArrowLeft } from 'lucide-react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useTheme } from '../contexts/ThemeContext'
-import api from '../services/api'
+
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({})
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
-  const { theme, toggleTheme } = useTheme()
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      navigate('/dashboard')
-    }
-  }, [navigate])
-
-  // Validação de email
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return regex.test(email)
   }
 
-  // Validação de formulário
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {}
 
@@ -55,59 +45,47 @@ const LoginPage: React.FC = () => {
     setIsLoading(true)
 
     try {
-      const response = await api.post('/auth/login', { email, password })
-      
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
-      
+      await login(email, password)
       navigate('/dashboard')
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Erro ao fazer login. Verifique suas credenciais.'
-      setErrors({ general: message })
+    } catch (error) {
+      setErrors({ email: 'Email ou senha incorretos' })
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 flex items-center justify-center p-4 transition-colors duration-300 relative">
-      <div className="absolute top-8 right-8">
-        <button
-          onClick={toggleTheme}
-          className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-lg"
-          title={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
-        >
-          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-        </button>
-      </div>
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4 transition-colors duration-300">
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-6 left-6 inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-all shadow-sm hover:shadow-md"
+      >
+        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+        <span className="hidden sm:inline">Voltar</span>
+      </button>
 
       <div className="max-w-md w-full">
-        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-slate-400/20 dark:shadow-black/40 overflow-hidden border border-slate-200 dark:border-slate-800">
-          {/* Header */}
-          <div className="p-8 bg-linear-to-r from-blue-600 to-blue-700 dark:from-slate-950 dark:to-black text-white text-center">
+        <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl shadow-slate-400/20 dark:shadow-black/40 overflow-hidden border border-slate-200 dark:border-slate-700">
+          <div className="p-8 bg-linear-to-r from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 text-white text-center">
             <div className="flex justify-center mb-4">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center">
                 <LogIn size={24} />
               </div>
             </div>
             <h2 className="text-3xl font-bold mb-2">Bem-vindo</h2>
-            <p className="text-blue-100 dark:text-slate-400 text-sm">Entre para continuar no StartupTank</p>
+            <p className="text-slate-300 text-sm">Entre para continuar no StartupTank</p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleLogin} className="p-8 space-y-6">
-            {/* Erro Geral */}
-            {errors.general && (
-              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
-                <p className="text-red-700 font-medium text-sm">{errors.general}</p>
-              </div>
-            )}
-
-            {/* Email Input */}
             <div>
-              <label className="block text-sm font-semibold text-slate-900 dark:text-slate-200 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-slate-900 dark:text-slate-200 mb-2">
+                Email
+              </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3.5 text-slate-400" size={20} />
+                <Mail
+                  className="absolute left-3 top-3.5 text-slate-400 dark:text-slate-500"
+                  size={20}
+                />
                 <input
                   type="email"
                   value={email}
@@ -115,25 +93,31 @@ const LoginPage: React.FC = () => {
                     setEmail(e.target.value)
                     if (errors.email) setErrors({ ...errors, email: undefined })
                   }}
-                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all ${
                     errors.email
-                      ? 'border-red-500 focus:ring-2 focus:ring-red-200'
-                      : 'border-slate-300 dark:border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-200 dark:focus:ring-red-800'
+                      : 'border-slate-300 dark:border-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800'
                   }`}
                   placeholder="exemplo@gmail.com"
                   disabled={isLoading}
                 />
               </div>
               {errors.email && (
-                <p className="text-red-600 text-xs font-medium mt-1.5">{errors.email}</p>
+                <p className="text-red-600 dark:text-red-400 text-xs font-medium mt-1.5">
+                  {errors.email}
+                </p>
               )}
             </div>
 
-            {/* Password Input */}
             <div>
-              <label className="block text-sm font-semibold text-slate-900 dark:text-slate-200 mb-2">Senha</label>
+              <label className="block text-sm font-semibold text-slate-900 dark:text-slate-200 mb-2">
+                Senha
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3.5 text-slate-400" size={20} />
+                <Lock
+                  className="absolute left-3 top-3.5 text-slate-400 dark:text-slate-500"
+                  size={20}
+                />
                 <input
                   type="password"
                   value={password}
@@ -141,26 +125,27 @@ const LoginPage: React.FC = () => {
                     setPassword(e.target.value)
                     if (errors.password) setErrors({ ...errors, password: undefined })
                   }}
-                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all ${
                     errors.password
-                      ? 'border-red-500 focus:ring-2 focus:ring-red-200'
-                      : 'border-slate-300 dark:border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-200 dark:focus:ring-red-800'
+                      : 'border-slate-300 dark:border-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800'
                   }`}
                   placeholder="••••••••"
                   disabled={isLoading}
                 />
               </div>
               {errors.password && (
-                <p className="text-red-600 text-xs font-medium mt-1.5">{errors.password}</p>
+                <p className="text-red-600 dark:text-red-400 text-xs font-medium mt-1.5">
+                  {errors.password}
+                </p>
               )}
             </div>
 
-            {/* Remember & Forgot Password */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 cursor-pointer group">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-200 cursor-pointer"
+                  className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800 cursor-pointer"
                   disabled={isLoading}
                 />
                 <span className="text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
@@ -169,17 +154,16 @@ const LoginPage: React.FC = () => {
               </label>
               <a
                 href="#"
-                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
               >
                 Esqueceu a senha?
               </a>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-200 dark:shadow-none flex items-center justify-center gap-2"
+              className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-200 dark:shadow-blue-900/30 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -194,23 +178,21 @@ const LoginPage: React.FC = () => {
               )}
             </button>
 
-            {/* Divider */}
             <div className="relative py-4">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-300 dark:border-slate-700"></div>
+                <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase font-medium text-xs">
+                <span className="px-2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase font-medium text-xs">
                   Ou entre com
                 </span>
               </div>
             </div>
 
-            {/* Google Button */}
             <button
               type="button"
               disabled={isLoading}
-              className="w-full bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 py-3 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-750 hover:border-slate-400 dark:hover:border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full bg-white dark:bg-slate-700 border-2 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white py-3 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-600 hover:border-slate-400 dark:hover:border-slate-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -233,28 +215,16 @@ const LoginPage: React.FC = () => {
               <span>Google</span>
             </button>
 
-            {/* Register Link */}
-            <p className="text-center text-slate-700 dark:text-slate-400">
+            <p className="text-center text-slate-700 dark:text-slate-300">
               Não tem uma conta?{' '}
               <a
                 href="/register"
-                className="text-blue-600 font-bold hover:text-blue-700 hover:underline transition-colors"
+                className="text-blue-600 dark:text-blue-400 font-bold hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors"
               >
                 Cadastre-se
               </a>
             </p>
           </form>
-        </div>
-
-        {/* Link Voltar para Home - Após o Card */}
-        <div className="text-center mt-6">
-          <button
-            onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors group"
-          >
-            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            <span>Voltar para Home</span>
-          </button>
         </div>
       </div>
     </div>

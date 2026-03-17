@@ -10,6 +10,7 @@ import startupRoutes from './routes/startups.js';
 import mentorRoutes from './routes/mentors.js';
 import investorRoutes from './routes/investors.js';
 import interactionRoutes from './routes/interactions.js';
+import paymentRoutes from './routes/payment.js';
 import { verifyToken } from './middleware/auth.js';
 
 dotenv.config();
@@ -52,6 +53,7 @@ app.use('/api/startups', startupRoutes);
 app.use('/api/mentors', mentorRoutes);
 app.use('/api/investors', investorRoutes);
 app.use('/api/interactions', interactionRoutes);
+app.use('/api/payments', paymentRoutes);
 
 app.get('/', (req, res) => {
   res.send('StartupTank API is running...');

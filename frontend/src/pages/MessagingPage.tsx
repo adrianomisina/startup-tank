@@ -136,7 +136,7 @@ const MessagingPage: React.FC = () => {
                   placeholder="Escreva sua mensagem..."
                   className="flex-1 px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-xl outline-none focus:bg-white dark:focus:bg-slate-700 focus:border-slate-200 dark:focus:border-slate-600 border border-transparent transition-all text-sm sm:text-base text-slate-900 dark:text-white placeholder-slate-400"
                 />
-                <button className="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 shrink-0">
+                <button className="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 dark:shadow-blue-900/30 shrink-0">
                   <Send size={20} />
                 </button>
               </form>
