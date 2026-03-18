@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/pages/LoginPage.tsx
 import { Lock, LogIn, Mail, ArrowLeft } from 'lucide-react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../services/api'
 
 
 const LoginPage: React.FC = () => {
@@ -45,10 +47,18 @@ const LoginPage: React.FC = () => {
     setIsLoading(true)
 
     try {
-      await login(email, password)
-      navigate('/dashboard')
-    } catch (error) {
-      setErrors({ email: 'Email ou senha incorretos' })
+      const response = await api.post('/auth/login', { email, password })
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      
+      const userRole = response.data.user.role
+      if (userRole === 'startup_founder') {
+        navigate('/my-startup')
+      } else {
+        navigate('/dashboard')
+      }
+    } catch (error: any) {
+      setErrors({ email: error.response?.data?.message || 'Email ou senha incorretos' })
     } finally {
       setIsLoading(false)
     }

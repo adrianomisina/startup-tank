@@ -73,17 +73,41 @@ router.post('/pagseguro/create-payment', verifyToken, async (req, res) => {
       status: 'pending'
     });
 
-    // Aqui você faria a chamada para a API do PagSeguro para gerar o código de checkout
-    // e retornaria a URL para o frontend.
-    
+    // Mock PagSeguro Checkout URL generation
+    const mockCheckoutUrl = isSandbox 
+      ? `https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=MOCK_CODE_${paymentRecord._id}`
+      : `https://pagseguro.uol.com.br/v2/checkout/payment.html?code=REAL_CODE_${paymentRecord._id}`;
+
     res.json({ 
-      message: 'Integração PagSeguro iniciada', 
+      message: 'Integração PagSeguro simulada com sucesso', 
       paymentId: paymentRecord._id,
-      sandbox_warning: 'Configure PAGSEGURO_TOKEN no .env para transações reais'
+      checkoutUrl: mockCheckoutUrl,
+      sandbox_warning: isSandbox ? 'Modo Sandbox ativado (MOCK)' : ''
     });
   } catch (error) {
     console.error('PagSeguro Error:', error);
     res.status(500).json({ message: 'Erro ao iniciar pagamento com PagSeguro' });
+  }
+});
+
+// WEBHOOK: PagSeguro
+router.post('/webhook/pagseguro', async (req, res) => {
+  try {
+    const { notificationCode, notificationType } = req.body;
+    
+    // In a real scenario, you would query PagSeguro API with `notificationCode`
+    // to get the transaction details including the Status and Reference (Payment ID).
+    
+    // For mock purposes:
+    console.log('PagSeguro Webhook received:', notificationCode);
+    
+    // Fake status update
+    // await Payment.findOneAndUpdate({ _id: paymentId }, { status: 'succeeded' });
+
+    res.status(200).send('OK');
+  } catch (error) {
+    console.error('Webhook Error:', error);
+    res.status(500).send('Webhook fail');
   }
 });
 
